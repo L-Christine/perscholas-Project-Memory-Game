@@ -1,6 +1,6 @@
 const section = document.querySelector('section')
 const playerLivesCount =document.querySelector('span')
-let playerLives = 10; //can change later
+let playerLives = 30; //can change later
 
 playerLivesCount.textContent = playerLives
 
@@ -129,7 +129,7 @@ const restart = (text) => {
         }, 1000);
         
     })
-    playerLives = 10
+    playerLives = 30
     playerLivesCount.textContent = playerLives //reset lives
     setTimeout(() => window.alert(text), 1000)
 }

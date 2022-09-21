@@ -22,7 +22,7 @@ section{
     display: grid;
     grid-template-columns: repeat(6, 8rem);
     grid-template-rows: repeat(5, 8rem);
-    grid-gap: 2rem;
+    grid-gap: 1rem;
     perspective: 800px;
 }
 
