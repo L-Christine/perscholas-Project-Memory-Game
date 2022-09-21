@@ -1,7 +1,7 @@
 # Stitch Memory Game
 
 ## Description
-
+perscholas-Project-Memory-Game
 
 ## Images
 
@@ -12,4 +12,3 @@
     -CSS
 
 ## Upcoming features
-# perscholas-Project-Memory-Game
