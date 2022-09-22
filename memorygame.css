@@ -19,6 +19,14 @@ body{
     flex-direction: column;
 }
 
+button{
+    font-family: 'Bungee Spice', cursive, serif;
+    font-size: large;
+    background-color: lightgoldenrodyellow;
+    border: solid skyblue;
+    padding: 10px;
+}
+
 section{
     display: grid;
     grid-template-columns: repeat(6, 8rem);

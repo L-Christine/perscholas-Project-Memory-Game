@@ -87,16 +87,16 @@ const checkCards = (e) => {
     //compare & match
     if (flip.length === 2) {
         if(flip[0].getAttribute('name') === flip[1].getAttribute('name')){
-            // console.log('match')
             flip.forEach((card) => {
                 card.classList.remove('flipped') //matching = remove 'flipped' from the class
                 card.style.pointerEvents = 'none' //make flipped matching cards unclickable
             })
         } else {
-            // console.log('wrong')
             flip.forEach((card) => {
                 card.classList.remove('flipped') //not matching = remove 'flipped' from the class
-                setTimeout(() => card.classList.remove('toggle'), 1000) //cancel 'toggle' after 1000ms when cards are not matching
+
+                setTimeout(() => card.classList.remove('toggle'), 1000) //cancel 'toggle' after # ms when cards are not matching
+
             })
             attempt-- //take 1 off for two wrong cards
             attemptCount.textContent = attempt
@@ -125,12 +125,12 @@ const reset = (text) => {
         cards[i].classList.remove('toggle') //undo flip
         
         //random & sort again after 1000ms when game resets
-        setTimeout(() => {
+        // setTimeout(() => {
             cards[i].style.pointerEvents = 'all' //make matching cards from a previous game clickable again
             fronts[i].src = item.img //update image
             cards[i].setAttribute('name', item.name) //update name
             section.style.pointerEvents = 'all' //clickable again after reset
-        }, 1000);
+        // }, 1000);
         
     })
     //reset # of attempt
