@@ -1,139 +1,146 @@
 const section = document.querySelector('section')
-const playerLivesCount =document.querySelector('span')
-let playerLives = 30; //can change later
+const attemptCount = document.querySelector('span')
 
-playerLivesCount.textContent = playerLives
+let attempt = 30; //can be changed
+attemptCount.textContent = attempt
 
-//generate the data
-//{} in [] will return the array, imgSrc==<img src= >
-const getData = () => [
-    {imgSrc: './images/alien.jpg', name: 'alien'},
-    {imgSrc: './images/coconut.jpg', name: 'coconut'},
-    {imgSrc: './images/dance.jpg', name: 'dance'},
-    {imgSrc: './images/drawing.jpg', name: 'drawing'},
-    {imgSrc: './images/elvis.jpg', name: 'elvis'},
-    {imgSrc: './images/grumpy.jpg', name: 'grumpy'},
-    {imgSrc: './images/guitar.jpg', name: 'guitar'},
-    {imgSrc: './images/icecream.jpg', name: 'icecream'},
-    {imgSrc: './images/irritation.jpg', name: 'irritation'},
-    {imgSrc: './images/lick.jpg', name: 'lick'},
-    {imgSrc: './images/ohana.jpg', name: 'ohana'},
-    {imgSrc: './images/pajama.jpg', name: 'pajama'},
-    {imgSrc: './images/recordplayer.jpg', name: 'recordplayer'},
-    {imgSrc: './images/sunglass.jpg', name: 'sunglass'},
-    {imgSrc: './images/surprise.jpg', name: 'surprise'},
-    {imgSrc: './images/alien.jpg', name: 'alien'}, //another identical set of cards
-    {imgSrc: './images/coconut.jpg', name: 'coconut'},
-    {imgSrc: './images/dance.jpg', name: 'dance'},
-    {imgSrc: './images/drawing.jpg', name: 'drawing'},
-    {imgSrc: './images/elvis.jpg', name: 'elvis'},
-    {imgSrc: './images/grumpy.jpg', name: 'grumpy'},
-    {imgSrc: './images/guitar.jpg', name: 'guitar'},
-    {imgSrc: './images/icecream.jpg', name: 'icecream'},
-    {imgSrc: './images/irritation.jpg', name: 'irritation'},
-    {imgSrc: './images/lick.jpg', name: 'lick'},
-    {imgSrc: './images/ohana.jpg', name: 'ohana'},
-    {imgSrc: './images/pajama.jpg', name: 'pajama'},
-    {imgSrc: './images/recordplayer.jpg', name: 'recordplayer'},
-    {imgSrc: './images/sunglass.jpg', name: 'sunglass'},
-    {imgSrc: './images/surprise.jpg', name: 'surprise'}
+//card data array
+const cardArray = [
+    {name: 'alien', img: './images/alien.jpg'},
+    {name: 'coconut', img: './images/coconut.jpg'},
+    {name: 'dance', img: './images/dance.jpg'},
+    {name: 'drawing', img: './images/drawing.jpg'},
+    {name: 'elvis', img: './images/elvis.jpg'},
+    {name: 'grumpy', img: './images/grumpy.jpg'},
+    {name: 'guitar', img: './images/guitar.jpg'},
+    {name: 'icecream', img: './images/icecream.jpg'},
+    {name: 'irritation', img: './images/irritation.jpg'},
+    {name: 'lick', img: './images/lick.jpg'},
+    {name: 'ohana', img: './images/ohana.jpg'},
+    {name: 'pajama', img: './images/pajama.jpg'},
+    {name: 'recordplayer', img: './images/recordplayer.jpg'},
+    {name: 'sunglass', img: './images/sunglass.jpg'},
+    {name: 'surprise', img: './images/surprise.jpg'},
+    //another identical set of cards
+    {name: 'alien', img: './images/alien.jpg'},
+    {name: 'coconut', img: './images/coconut.jpg'},
+    {name: 'dance', img: './images/dance.jpg'},
+    {name: 'drawing', img: './images/drawing.jpg'},
+    {name: 'elvis', img: './images/elvis.jpg'},
+    {name: 'grumpy', img: './images/grumpy.jpg'},
+    {name: 'guitar', img: './images/guitar.jpg'},
+    {name: 'icecream', img: './images/icecream.jpg'},
+    {name: 'irritation', img: './images/irritation.jpg'},
+    {name: 'lick', img: './images/lick.jpg'},
+    {name: 'ohana', img: './images/ohana.jpg'},
+    {name: 'pajama', img: './images/pajama.jpg'},
+    {name: 'recordplayer', img: './images/recordplayer.jpg'},
+    {name: 'sunglass', img: './images/sunglass.jpg'},
+    {name: 'surprise', img: './images/surprise.jpg'}
 ] 
 
-//Randomize
-const randomize = () => {
-    const cardData = getData()
-    cardData.sort(() => Math.random() - 0.5)
-    return cardData
+//====function: randomize & sort
+const randSort = () => {
+    cardArray.sort(() => 0.5-Math.random())
+    return cardArray
 }
 
-//Card Generator Function
-const cardGenerator = () => {
-    const cardData = randomize()
-    //Generate the HTML, item = each imgSrc in the array
-    cardData.forEach((item) => {
-        //generate cards
+//====function: game start & set cards on the board
+const playGame = () => {
+    const cardArray = randSort()
+    //create element, attach class
+    cardArray.forEach((item) => {
         const card = document.createElement('div')
-        const face = document.createElement('img')
-        const back = document.createElement('div')
         card.classList = 'card'
-        face.classList = 'face'
+
+        const front = document.createElement('img')
+        front.classList = 'front'
+        
+        const back = document.createElement('div')
         back.classList = 'back'
 
         //attach img file to the cards
-        face.src = item.imgSrc
+        front.src = item.img
 
         //add img name to card div
         card.setAttribute('name', item.name)
 
-        //attach the cards to the section, attach front&back to the card
+        //attach the cards to the section + attach front & back to the card
         section.appendChild(card)
-        card.appendChild(face)
+        card.appendChild(front)
         card.appendChild(back)
 
         card.addEventListener('click', (e) =>{
-            card.classList.toggle('toggleCard')
+            card.classList.toggle('toggle')
             checkCards(e)
         })
     })
 }
 
-//check cards
+//====function: check if two cards are matching
 const checkCards = (e) => {
-    const clickedCard = e.target //when click, capture target==cards clicked
-    clickedCard.classList.add('flipped') //when clicked add 'flipped' to the card's class
-    const flippedCards = document.querySelectorAll('.flipped') //save flipped cards into const flippedCards
-    const toggleCard = document.querySelectorAll('.toggleCard')
+    const click = e.target //click -> capture target==cards clicked
+    click.classList.add('flipped') //click -> add 'flipped' to the class
+    const flip = document.querySelectorAll('.flipped') //save flipped cards into const flip
+    const toggle = document.querySelectorAll('.toggle')
     
     //compare & match
-    if (flippedCards.length === 2) {
-        if(flippedCards[0].getAttribute('name') === flippedCards[1].getAttribute('name')){
-            console.log('match')
-            flippedCards.forEach((card) => {
+    if (flip.length === 2) {
+        if(flip[0].getAttribute('name') === flip[1].getAttribute('name')){
+            // console.log('match')
+            flip.forEach((card) => {
                 card.classList.remove('flipped') //matching = remove 'flipped' from the class
-                card.style.pointerEvents = 'none' //make matching cards unclickable
+                card.style.pointerEvents = 'none' //make flipped matching cards unclickable
             })
         } else {
-            console.log('wrong')
-            flippedCards.forEach((card) => {
+            // console.log('wrong')
+            flip.forEach((card) => {
                 card.classList.remove('flipped') //not matching = remove 'flipped' from the class
-                setTimeout(() => card.classList.remove('toggleCard'), 1000) //cancel 'toggleCard' after 1000ms when cards are not matching
+                setTimeout(() => card.classList.remove('toggle'), 1000) //cancel 'toggle' after 1000ms when cards are not matching
             })
-            playerLives-- //take 1 off for wrong
-            playerLivesCount.textContent = playerLives
-            if (playerLives === 0){
-                restart('Try Again')
+            attempt-- //take 1 off for two wrong cards
+            attemptCount.textContent = attempt
+            if (attempt === 0){
+                window.alert('You Lost!')
+                section.style.pointerEvents = 'none'
             }
         }
     }
-    //check if player won, === total num of cards
-    if (toggleCard.length === 30) {
-        restart('You won')
+    //player wins if toggled cards === total num of cards
+    if (toggle.length === 30) {
+        window.alert('Congralutaions! You Won')
+        section.style.pointerEvents = 'none'
     }
 }
 
-//Restart the game
-const restart = (text) => {
-    let cardData = randomize()
-    let faces = document.querySelectorAll('.face')
+//====function: reset the game
+const reset = (text) => {
+    let cardArray = randSort() //shuffle
+    let fronts = document.querySelectorAll('.front')
     let cards = document.querySelectorAll('.card')
-    section.style.pointerEvents = 'none' //unclickable until game completely resets
-    cardData.forEach((item, index) => {
-        cards[index].classList.remove('toggleCard') //flip all cards back to start position
+    
+    section.style.pointerEvents = 'none' //make cards unclickable until game resets
+
+    cardArray.forEach((item, i) => {
+        cards[i].classList.remove('toggle') //undo flip
         
-        //randomize after all cards are flipped back
+        //random & sort again after 1000ms when game resets
         setTimeout(() => {
-            cards[index].style.pointerEvents = 'all' //reset pointer events from 'none' to 'all'==clickable
-            faces[index].src = item.imgSrc //update image
-            cards[index].setAttribute('name', item.name) //update name
+            cards[i].style.pointerEvents = 'all' //make matching cards from a previous game clickable again
+            fronts[i].src = item.img //update image
+            cards[i].setAttribute('name', item.name) //update name
             section.style.pointerEvents = 'all' //clickable again after reset
         }, 1000);
         
     })
-    playerLives = 30
-    playerLivesCount.textContent = playerLives //reset lives
-    setTimeout(() => window.alert(text), 1000)
+    //reset # of attempt
+    attempt = 30
+    attemptCount.textContent = attempt
 }
 
+//====button
+const resetGame = document.querySelector('#resetGame')
+resetGame.addEventListener('click', reset)
 
-
-cardGenerator()
+//test
+playGame()
