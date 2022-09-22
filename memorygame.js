@@ -1,5 +1,5 @@
 const section = document.querySelector('section')
-const attemptCount = document.querySelector('span')
+const attemptCount = document.querySelector('.attemptCount')
 
 let attempt = 30; //can be changed
 attemptCount.textContent = attempt
@@ -51,13 +51,15 @@ const playGame = () => {
     //create element, attach class
     cardArray.forEach((item) => {
         const card = document.createElement('div')
-        card.classList = 'card'
+        card.classList.add('card')
 
         const front = document.createElement('img')
-        front.classList = 'front'
+        front.classList.add('front')
         
-        const back = document.createElement('div')
-        back.classList = 'back'
+        const back = document.createElement('img')      
+        back.src ='./images/backside.jpg'
+        back.classList.add('back')
+        
 
         //attach img file to the cards
         front.src = item.img
@@ -84,7 +86,7 @@ const checkCards = (e) => {
     const flip = document.querySelectorAll('.flipped') //save flipped cards into const flip
     const toggle = document.querySelectorAll('.toggle')
     
-    //compare & match
+    //compare & match after clicking two cards
     if (flip.length === 2) {
         if(flip[0].getAttribute('name') === flip[1].getAttribute('name')){
             flip.forEach((card) => {
@@ -96,17 +98,19 @@ const checkCards = (e) => {
                 card.classList.remove('flipped') //not matching = remove 'flipped' from the class
 
                 setTimeout(() => card.classList.remove('toggle'), 1000) //cancel 'toggle' after # ms when cards are not matching
-
             })
-            attempt-- //take 1 off for two wrong cards
+
+            attempt-- //for each wrong set, take 1 off
             attemptCount.textContent = attempt
+
+            //LOSE if # of attempts === 0
             if (attempt === 0){
                 window.alert('You Lost!')
                 section.style.pointerEvents = 'none'
             }
         }
     }
-    //player wins if toggled cards === total num of cards
+    //WIN if toggled cards === total num of cards
     if (toggle.length === 30) {
         window.alert('Congralutaions! You Won')
         section.style.pointerEvents = 'none'
@@ -121,19 +125,16 @@ const reset = (text) => {
     
     section.style.pointerEvents = 'none' //make cards unclickable until game resets
 
+    //==random & sort again
     cardArray.forEach((item, i) => {
         cards[i].classList.remove('toggle') //undo flip
-        
-        //random & sort again after 1000ms when game resets
-        // setTimeout(() => {
-            cards[i].style.pointerEvents = 'all' //make matching cards from a previous game clickable again
-            fronts[i].src = item.img //update image
-            cards[i].setAttribute('name', item.name) //update name
-            section.style.pointerEvents = 'all' //clickable again after reset
-        // }, 1000);
-        
+        cards[i].style.pointerEvents = 'all' //make matching sets from a previous game clickable again
+        fronts[i].src = item.img //update image
+        cards[i].setAttribute('name', item.name) //update name
+        section.style.pointerEvents = 'all' //clickable again after reset
     })
-    //reset # of attempt
+
+    //==reset # of attempt
     attempt = 30
     attemptCount.textContent = attempt
 }
